@@ -10,11 +10,17 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import rootReducer from './rootReducer';
 import history from './history';
+import { userLoggedIn } from './actions/auth';
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
+
+if (localStorage.accessJWT) {
+  const user = { token: localStorage.accessJWT };
+  store.dispatch(userLoggedIn(user));
+}
 
 ReactDOM.render(
   <Router history={history}>
